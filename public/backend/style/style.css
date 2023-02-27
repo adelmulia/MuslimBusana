@@ -1,0 +1,30 @@
+.cast-card {
+     border-radius: 24px;
+     background-color: white;
+     padding: 20px;
+}
+
+.cast-detail {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+}
+
+.label-detail {
+     color: grey;
+     font-size: 14px;
+     margin-bottom: 2px;
+}
+
+.title-detail {
+     font-weight: 600;
+     color: black;
+     font-size: 18px;
+}
+
+
+
+
+.img-detail img {
+     height: 100%;
+}
