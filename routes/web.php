@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DetailProductController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -19,7 +20,10 @@ use App\Http\Controllers\Admin\DashboardController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/detail-produk{id}', [DetailProductController::class, 'index'])->name('detail-produk');
+Route::get('/detail-produk/{id}', [DetailProductController::class, 'index'])->name('detail-produk');
+Route::post('cart', [CartController::class, 'addToCart'])->name('front.cart');
+Route::get('/cart', [CartController::class, 'listCart'])->name('front.list_cart');
+
 
 // admin
 Route::prefix('admin')

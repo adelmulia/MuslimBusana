@@ -36,20 +36,41 @@
                       </figure>
                   </div>
   
-                  <div class="col-lg-4">
+                  <div class="col-lg-5">
                       <h3>{{ $data->name }}</h3>
                       <p class="text-muted">IDR. @currency($data->price)</p>
-                      <button type="button" class="btn btn-sm" style="background-color: #EAEAEF; color: white;"><i
-                              class="fas fa-minus-circle"></i></button>
-                      <span class="mx-2">20</span>
-                      <button type="button" class="btn btn-sm btn-success" style="color: white;"><i
-                              class="fas fa-plus-circle"></i></button>
+                     
+    
+                      <form action="{{ route('front.cart') }}" method="POST">
+                        @csrf
+                        <div class="product_count">
+                          <label for="qty">Quantity:</label>
+                          <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+                          
+                          <!-- BUAT INPUTAN HIDDEN YANG BERISI ID PRODUK -->
+                          <input type="hidden" name="product_id" value="{{ $data->id }}" class="form-control">
+                          
+                          <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                          class="increase items-count btn-success" type="button">
+                          <i
+                          class="fas fa-plus-circle"></i></button>
+                          </button>
+                          <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                          class="reduced items-count btn-danger" type="button">
+                          <i
+                            class="fas fa-minus-circle"></i></button>
+                          </button>
+                        </div>
+                        <div class="card_area">
+                          
+                          <!-- UBAH JADI BUTTON -->
+                          <button class="main_btn btn-warning">Add to Cart</button>
+                          <!-- UBAH JADI BUTTON -->
+                          
+                        </div>
+                      </form>
   
-                      <div class="btn-product">
-                          <a href="cart.html" class="btn btn-warning">Add to Cart</a>
-                      </div>
-  
-                      <div class="designed-by">
+                      <div class="designed-by mt-3">
                           <h5>Designed by</h5>
                           <div class="row">
                               <div class="col-2">

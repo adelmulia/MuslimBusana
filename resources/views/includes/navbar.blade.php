@@ -22,7 +22,7 @@
                      <a class="nav-link" href="#">About</a>
                  </li>
              </ul>
-             <a href="" class="nav-link text-white"><i class="fas fa-shopping-cart"></i>My Cart <span>
+             <a href="{{ route('front.list_cart')}}" class="nav-link text-white"><i class="fas fa-shopping-cart"></i>My Cart <span>
                      (12)</span></a>
          </div>
      </div>
