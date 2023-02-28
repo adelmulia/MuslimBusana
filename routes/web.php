@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DetailProductController;
 use App\Http\Controllers\Admin\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,7 @@ use App\Http\Controllers\Admin\DashboardController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/detail-produk{id}', [DetailProductController::class, 'index'])->name('detail-produk');
 
 // admin
 Route::prefix('admin')

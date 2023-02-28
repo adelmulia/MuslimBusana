@@ -88,90 +88,26 @@
          </div>
 
          <div class="row">
-             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                 <figure class="figure">
-                     <div class="figure-img">
-                         <img src="{{ url('frontend/img/fiture/1.png') }}" class="figure-img img-fluid " alt="...">
-                         <a href="single.html" class="d-flex justify-content-center">
-                             <img src="{{ url('frontend/img/detail.png') }}" alt="" class="align-self-center">
-                         </a>
-                     </div>
-                     <figcaption class="figure-caption text-center">
-                         <h5>Jeans Pubb</h5>
-                         <p>IDR 190.300</p>
-                     </figcaption>
-                 </figure>
-             </div>
-             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                 <figure class="figure">
-                     <div class="figure-img">
-                         <img src="{{ url('frontend/img/fiture/2.png') }}" class="figure-img img-fluid " alt="...">
-                         <a href="single.html" class="d-flex justify-content-center">
-                             <img src="{{ url('frontend/img/detail.png') }}" alt="" class="align-self-center">
-                         </a>
-                     </div>
-                     <figcaption class="figure-caption text-center">
-                         <h5>Jeans Pubb</h5>
-                         <p>IDR 190.300</p>
-                     </figcaption>
-                 </figure>
-             </div>
-             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                 <figure class="figure">
-                     <div class="figure-img">
-                         <img src="{{ url('frontend/img/fiture/3.png') }}" class="figure-img img-fluid " alt="...">
-                         <a href="single.html" class="d-flex justify-content-center">
-                             <img src="{{ url('frontend/img/detail.png') }}" alt="" class="align-self-center">
-                         </a>
-                     </div>
-                     <figcaption class="figure-caption text-center">
-                         <h5>Jeans Pubb</h5>
-                         <p>IDR 190.300</p>
-                     </figcaption>
-                 </figure>
-             </div>
-             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                 <figure class="figure">
-                     <div class="figure-img">
-                         <img src="{{ url('frontend/img/fiture/3.png') }}" class="figure-img img-fluid " alt="...">
-                         <a href="single.html" class="d-flex justify-content-center">
-                             <img src="{{ url('frontend/img/detail.png') }}" alt="" class="align-self-center">
-                         </a>
-                     </div>
-                     <figcaption class="figure-caption text-center">
-                         <h5>Jeans Pubb</h5>
-                         <p>IDR 190.300</p>
-                     </figcaption>
-                 </figure>
-             </div>
-             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                 <figure class="figure">
-                     <div class="figure-img">
-                         <img src="{{ url('frontend/img/fiture/3.png') }}" class="figure-img img-fluid " alt="...">
-                         <a href="single.html" class="d-flex justify-content-center">
-                             <img src="{{ url('frontend/img/detail.png') }}" alt="" class="align-self-center">
-                         </a>
-                     </div>
-                     <figcaption class="figure-caption text-center">
-                         <h5>Jeans Pubb</h5>
-                         <p>IDR 190.300</p>
-                     </figcaption>
-                 </figure>
-             </div>
-             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                 <figure class="figure">
-                     <div class="figure-img">
-                         <img src="{{ url('frontend/img/fiture/1.png') }}" class="figure-img img-fluid " alt="...">
-                         <a href="single.html" class="d-flex justify-content-center">
-                             <img src="img/detail.png" alt="" class="align-self-center">
-                         </a>
-                     </div>
-                     <figcaption class="figure-caption text-center">
-                         <h5>Jeans Pubb</h5>
-                         <p>IDR 190.300</p>
-                     </figcaption>
-                 </figure>
-             </div>
+            @forelse ($data as $item)
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <figure class="figure">
+                    <div class="figure-img">
+                        <img src="{{ url('frontend/img/fiture/1.png') }}" class="figure-img img-fluid " alt="...">
+                        <a href="{{ route('detail-produk', $item->id)}}" class="d-flex justify-content-center">
+                            <img src="{{ url('frontend/img/detail.png') }}" alt="" class="align-self-center">
+                        </a>
+                    </div>
+                    <figcaption class="figure-caption text-center">
+                        <h5>{{ $item->name }}</h5>
+                        <p>IDR. @currency($item->price)</p>
+                    </figcaption>
+                </figure>
+            </div>
+            @empty
+                
+            @endforelse
+           
+           
          </div>
      </div>
  </section>
