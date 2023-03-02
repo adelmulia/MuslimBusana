@@ -37,6 +37,7 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('/category', '\App\Http\Controllers\Admin\CategoryController');
+        Route::resource('/product', '\App\Http\Controllers\Admin\ProductController');
     });
 
 Auth::routes();

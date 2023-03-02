@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use File;
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use GuzzleHttp\Handler\Proxy;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -15,9 +20,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::paginate(5);
+        $product = Product::with(['category'])->paginate(5);
 
-        return view('pages.admin.product.index');
+        return view('pages.admin.product.index', compact('product'));
     }
 
     /**
@@ -27,7 +32,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $category = Category::all();
+        return view('pages.admin.product.create', compact('category'));
     }
 
     /**
@@ -38,7 +44,32 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:55',
+            'description' => 'required',
+            'category_id' => 'required',
+            'price' => 'required',
+            'weight' => 'required',
+            'image' => 'required|image|mimes:png,jpeg,jpg'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = Str::slug($request->name) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/uploads', $filename);
+
+            $product = Product::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'weight' => $request->weight,
+                'category_id' => $request->category_id,
+                'image' => $filename,
+                'slug' => Str::slug($request->name),
+
+            ]);
+            return redirect(route('product.index'))->with(['success' => 'Produk Baru Ditambahkan']);
+        }
     }
 
     /**
@@ -60,7 +91,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Product::with(['category'])->find($id);
+        $category = Category::all();
+        return view('pages.admin.product.edit', compact('data', 'category'));
     }
 
     /**
@@ -72,7 +105,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:55',
+            'description' => 'required',
+            'category_id' => 'required',
+            'price' => 'required',
+            'weight' => 'required',
+            // 'image' => 'nullabel|image|mimes:png,jpeg,jpg'
+        ]);
+
+        $product = Product::find($id);
+        $filename = $product->image;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = Str::slug($request->name) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/uploads/', $filename);
+            Storage::delete(storage_path('app/public/uploads/' . $product->image));
+        }
+
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'weight' => $request->weight,
+            'category_id' => $request->category_id,
+            'image' => $filename,
+        ]);
+        return redirect(route('product.index'))->with(['success' => 'Data Produk Diperbaharui']);
     }
 
     /**
@@ -83,6 +142,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        if ($product->image) {
+            Storage::delete(storage_path('app/public/uploads/' . $product->image));
+        }
+        $product->delete();
+        return redirect(route('product.index'))->with(['success' => 'Produk Dihapus!']);
     }
 }

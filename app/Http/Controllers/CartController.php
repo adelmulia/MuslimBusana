@@ -15,17 +15,19 @@ class CartController extends Controller
 {
     private function getCarts()
     {
-        $carts = json_decode(request()->cookie('dw-carts'), true);
+        $carts = json_decode(request()->cookie('hs-carts'), true);
         $carts = $carts != '' ? $carts : [];
         return $carts;
     }
     public function addToCart(Request $request)
     {
         //VALIDASI DATA YANG DIKIRIM
-        $this->validate($request, [
+        $validatedData = $request->validate([
             'product_id' => 'required|exists:products,id', //PASTIKAN PRODUCT_IDNYA ADA DI DB
             'qty' => 'required|integer' //PASTIKAN QTY YANG DIKIRIM INTEGER
         ]);
+
+
 
         //AMBIL DATA CART DARI COOKIE, KARENA BENTUKNYA JSON MAKA KITA GUNAKAN JSON_DECODE UNTUK MENGUBAHNYA MENJADI ARRAY
         $carts = $this->getCarts();
