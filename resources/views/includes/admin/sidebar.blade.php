@@ -13,7 +13,7 @@
              <img src="{{ url('backend/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
            </div>
            <div class="info">
-             <a href="#" class="d-block">Sahrul Gunawan</a>
+             <a href="#" class="d-block">{{ Auth::user()->name}}</a>
            </div>
          </div>
    
@@ -38,8 +38,7 @@
                  <a href="{{ url('cast')}}" class="nav-link">
                    <i class="nav-icon fas fa-table"></i>
                    <p>
-                     Cast
-                    
+                     Product
                    </p>
                  </a>
                </li>

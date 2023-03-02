@@ -23,6 +23,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/detail-produk/{id}', [DetailProductController::class, 'index'])->name('detail-produk');
 Route::post('cart', [CartController::class, 'addToCart'])->name('front.cart');
 Route::get('/cart', [CartController::class, 'listCart'])->name('front.list_cart');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('front.checkout');
+Route::post('/checkout', [CartController::class, 'processCheckout'])->name('front.store_checkout');
+Route::get('/checkout/{invoice}', [CartController::class, 'checkoutFinish'])->name('front.finish_checkout');
+
+
 
 
 // admin
