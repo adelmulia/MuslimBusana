@@ -36,6 +36,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('/category', '\App\Http\Controllers\Admin\CategoryController');
     });
 
 Auth::routes();
