@@ -39,6 +39,10 @@
                                    <input type="text" class="form-control" id="first" name="customer_name" required>
                                    <p class="text-danger">{{ $errors->first('customer_name') }}</p>
                               </div>
+						{{-- <div class="col-md-12 form-group">
+                                   <input type="text" class="form-control" id="first" value="{{ $password}}" name="password" required>
+                                   <p class="text-danger">{{ $errors->first('customer_name') }}</p>
+                              </div> --}}
                               <div class="col-md-6 form-group p_star">
                                    <label for="">No Telp</label>
                                    <input type="text" class="form-control" id="number" name="customer_phone" required>
@@ -90,22 +94,9 @@
 										<span>Rp {{ number_format($subtotal) }}</span>
 									</a>
 								</li>
-							</ul>
-							@guest
-							<form class="form-inline d-sm-block d-md-none">
-						  
-							<button class="btn btn-login my-2 my-sm-0" type="button" onclick="event.preventDefault(); location.href='{{ url('login')}}';">
-							   Silahkan Login
-							 </button>
-						    </form>
-						    <!-- Desktop Button -->
-						    <form class="form-inline my-2 my-lg-0 d-none d-md-block">
-						
-						    <button class="btn btn-login btn-navbar-right my-2 my-sm-0 px-4" type="button">
-							   Bayar Pesanan
-							 </button>
-						    </form>   
-							@endguest
+								<button class="btn btn-warning" type="submit">
+									Bayar Pesanan
+								   </button>
                            
                           </form>
 						</div>

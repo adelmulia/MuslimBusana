@@ -49,9 +49,7 @@
 							<li>
 								<a href="#"><span>Alamat</span> : {{ $order->customer_address }}</a>
 							</li>
-							<li>
-								<a href="#"><span>Kota</span> : {{ $order->district->city->name }}</a>
-							</li>
+						
 							<li>
 								<a href="#"><span>Country</span> : Indonesia</a>
 							</li>

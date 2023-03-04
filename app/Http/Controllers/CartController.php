@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\OrderDetail;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\CustomerRegisterMail;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -45,7 +47,8 @@ class CartController extends Controller
                 'product_id' => $product->id,
                 'product_name' => $product->name,
                 'product_price' => $product->price,
-                'product_image' => $product->image
+                'product_image' => $product->image,
+                'product_weight' => $product->weight
             ];
         }
 
@@ -55,6 +58,7 @@ class CartController extends Controller
         //STORE KE BROWSER UNTUK DISIMPAN
         return redirect()->back()->cookie($cookie);
     }
+
     public function listCart()
     {
         //MENGAMBIL DATA DARI COOKIE
@@ -65,6 +69,27 @@ class CartController extends Controller
         });
         //LOAD VIEW CART.BLADE.PHP DAN PASSING DATA CARTS DAN SUBTOTAL
         return view('pages.cart', compact('carts', 'subtotal'));
+    }
+    public function updateCart(Request $request)
+    {
+        //AMBIL DATA DARI COOKIE
+        $carts = json_decode(request()->cookie('hs-carts'), true);
+        //KEMUDIAN LOOPING DATA PRODUCT_ID, KARENA NAMENYA ARRAY PADA VIEW SEBELUMNYA
+        //MAKA DATA YANG DITERIMA ADALAH ARRAY SEHINGGA BISA DI-LOOPING
+        foreach ($request->product_id as $key => $row) {
+            //DI CHECK, JIKA QTY DENGAN KEY YANG SAMA DENGAN PRODUCT_ID = 0
+            if ($request->qty[$key] == 0) {
+                //MAKA DATA TERSEBUT DIHAPUS DARI ARRAY
+                unset($carts[$row]);
+            } else {
+                //SELAIN ITU MAKA AKAN DIPERBAHARUI
+                $carts[$row]['qty'] = $request->qty[$key];
+            }
+        }
+        //SET KEMBALI COOKIE-NYA SEPERTI SEBELUMNYA
+        $cookie = cookie('hs-carts', json_encode($carts), 2880);
+        //DAN STORE KE BROWSER.
+        return redirect()->back()->cookie($cookie);
     }
 
     public function checkout()
@@ -83,12 +108,20 @@ class CartController extends Controller
     {
         //VALIDASI DATANYA
 
-        $validatedData = $request->validate([
-            'customer_name' => 'required|string|max:100',
-            'customer_phone' => 'required',
-            'email' => 'required|email',
-            'customer_address' => 'required|string',
-        ]);
+        $validatedData = $request->validate(
+            [
+                'customer_name' => 'required|string|max:100',
+                'customer_phone' => 'required',
+                'email' => 'required|unique:customers',
+                'customer_address' => 'required|string',
+            ],
+            [
+                'min' => 'Masukan :attribute minimal :min',
+                'max' => 'Masukan :attribute minimal :max',
+                'required' => 'attribute harus diisi',
+                'unique' => ' email yang dimasukan sudah ada'
+            ]
+        );
 
         //INISIASI DATABASE TRANSACTION
         //DATABASE TRANSACTION BERFUNGSI UNTUK MEMASTIKAN SEMUA PROSES SUKSES UNTUK KEMUDIAN DI COMMIT AGAR DATA BENAR BENAR DISIMPAN, JIKA TERJADI ERROR MAKA KITA ROLLBACK AGAR DATANYA SELARAS
@@ -97,10 +130,11 @@ class CartController extends Controller
             //CHECK DATA CUSTOMER BERDASARKAN EMAIL
             $customer = Customer::where('email', $request->email)->first();
             //JIKA DIA TIDAK LOGIN DAN DATA CUSTOMERNYA ADA
-            // if (!auth()users->check() && $customer) {
-            //     //MAKA REDIRECT DAN TAMPILKAN INSTRUKSI UNTUK LOGIN 
-            //     return redirect()->back()->with(['error' => 'Silahkan Login Terlebih Dahulu']);
-            // }
+
+            if (!auth()->check() && $customer) {
+                //MAKA REDIRECT DAN TAMPILKAN INSTRUKSI UNTUK LOGIN 
+                return redirect()->back()->with(['error' => 'Silahkan Login Terlebih Dahulu']);
+            }
 
             //AMBIL DATA KERANJANG
             $carts = $this->getCarts();
@@ -110,12 +144,15 @@ class CartController extends Controller
             });
 
             //SIMPAN DATA CUSTOMER BARU
+            $password = Str::random(8);
             $customer = Customer::create([
                 'name' => $request->customer_name,
                 'email' => $request->email,
                 'phone_number' => $request->customer_phone,
                 'address' => $request->customer_address,
-                'status' => false
+                'status' => false,
+                'password' => $password,
+                'activate_token' => Str::random(30)
             ]);
 
             //SIMPAN DATA ORDER
@@ -132,13 +169,15 @@ class CartController extends Controller
             foreach ($carts as $row) {
                 //AMBIL DATA PRODUK BERDASARKAN PRODUCT_ID
                 $product = Product::find($row['product_id']);
+                // dd($carts);
                 //SIMPAN DETAIL ORDER
                 OrderDetail::create([
                     'order_id' => $order->id,
                     'product_id' => $row['product_id'],
                     'price' => $row['product_price'],
                     'qty' => $row['qty'],
-                    'weight' => $product->weight
+                    'weight' => $row['product_weight'],
+
                 ]);
             }
 
@@ -148,6 +187,10 @@ class CartController extends Controller
             $carts = [];
             //KOSONGKAN DATA KERANJANG DI COOKIE
             $cookie = cookie('hs-carts', json_encode($carts), 2880);
+
+            if (!auth()->guard('customer')->check()) {
+                Mail::to($request->email)->send(new CustomerRegisterMail($customer, $password));
+            }
             //REDIRECT KE HALAMAN FINISH TRANSAKSI
             return redirect(route('front.finish_checkout', $order->invoice))->cookie($cookie);
         } catch (\Exception $e) {
