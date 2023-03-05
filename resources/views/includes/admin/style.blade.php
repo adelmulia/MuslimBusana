@@ -19,3 +19,4 @@
 <link rel="stylesheet" href="{{ url('backend/plugins/daterangepicker/daterangepicker.css') }}">
 <!-- summernote -->
 <link rel="stylesheet" href="{{ url('backend/plugins/summernote/summernote-bs4.min.css') }}">
+<link rel="stylesheet" href="cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">

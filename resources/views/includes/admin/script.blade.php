@@ -33,3 +33,8 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ url('backend/dist/js/pages/dashboard.js') }}"></script>
 
+<script src="{{ url('backend/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ url('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+
+  
+

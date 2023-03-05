@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 
-use datatables;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class CategoryController extends Controller
 {
@@ -21,24 +22,9 @@ class CategoryController extends Controller
         $category = Category::all();
 
         // Mengirim kondisi melalui ajax
-        if ($request->ajax()) {
-            return datatables()->of($category)
-                ->addColumn('action', function ($data) {
-                    $button = '<a href="javascript:void(0)" data-toggle="tooltip"  data-kode_category="' . $data->id . '" data-original-title="Edit" class="edit btn btn-info btn-sm edit-post-category"><i class="far fa-edit"></i> Edit</a>';
-                    $button .= '&nbsp;&nbsp;';
+        // return DataTables::of($category)->make(true);
 
-                    $button .= ' <button class="btn btn-sm btn-danger" data-id="' . $data->id . '" id="deleteCategoryBtn"><i class="fa-regular fa-trash-can"></i>
-                    Delete</button>';
-
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-
-
-        // return view('pages.admin.category.index', compact('data'));
+        return view('pages.admin.category.index', compact('category'));
     }
 
     /**

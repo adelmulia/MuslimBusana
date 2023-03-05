@@ -56,8 +56,10 @@ class CartController extends Controller
         //JANGAN LUPA UNTUK DI-ENCODE KEMBALI, DAN LIMITNYA 2800 MENIT ATAU 48 JAM
         $cookie = cookie('hs-carts', json_encode($carts), 2880);
         //STORE KE BROWSER UNTUK DISIMPAN
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back()->cookie($cookie)->with(['success' => 'Barang ditambahkan ke keranjang']);
     }
+
+
 
     public function listCart()
     {
@@ -67,8 +69,12 @@ class CartController extends Controller
         $subtotal = collect($carts)->sum(function ($q) {
             return $q['qty'] * $q['product_price']; //SUBTOTAL TERDIRI DARI QTY * PRICE
         });
+        $total = collect($carts)->sum(function ($q) {
+            return $q['qty']++; //SUBTOTAL TERDIRI DARI QTY * PRICE
+        });
+
         //LOAD VIEW CART.BLADE.PHP DAN PASSING DATA CARTS DAN SUBTOTAL
-        return view('pages.cart', compact('carts', 'subtotal'));
+        return view('pages.cart', compact('carts', 'subtotal', 'total'));
     }
     public function updateCart(Request $request)
     {
@@ -131,11 +137,9 @@ class CartController extends Controller
             $customer = Customer::where('email', $request->email)->first();
             //JIKA DIA TIDAK LOGIN DAN DATA CUSTOMERNYA ADA
 
-            if (!auth()->check() && $customer) {
-                //MAKA REDIRECT DAN TAMPILKAN INSTRUKSI UNTUK LOGIN 
+            if (!auth()->guard('customer')->check() && $customer) {
                 return redirect()->back()->with(['error' => 'Silahkan Login Terlebih Dahulu']);
             }
-
             //AMBIL DATA KERANJANG
             $carts = $this->getCarts();
             //HITUNG SUBTOTAL BELANJAAN
@@ -143,17 +147,19 @@ class CartController extends Controller
                 return $q['qty'] * $q['product_price'];
             });
 
-            //SIMPAN DATA CUSTOMER BARU
-            $password = Str::random(8);
-            $customer = Customer::create([
-                'name' => $request->customer_name,
-                'email' => $request->email,
-                'phone_number' => $request->customer_phone,
-                'address' => $request->customer_address,
-                'status' => false,
-                'password' => $password,
-                'activate_token' => Str::random(30)
-            ]);
+            if (!auth()->guard('customer')->check()) {
+                $password = Str::random(8);
+                $customer = Customer::create([
+                    'name' => $request->customer_name,
+                    'email' => $request->email,
+                    'password' => $password,
+                    'phone_number' => $request->customer_phone,
+                    'address' => $request->customer_address,
+                    'district_id' => $request->district_id,
+                    'activate_token' => Str::random(30),
+                    'status' => false
+                ]);
+            }
 
             //SIMPAN DATA ORDER
             $order = Order::create([

@@ -20,6 +20,7 @@
   @include('includes.footer')
     <!-- akhir footer -->
     @include('includes.script');
+    @include('sweetalert::alert')
 
 
 

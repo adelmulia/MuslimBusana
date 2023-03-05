@@ -51,9 +51,17 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ route('order.index')}}" class="nav-link">
+                  <i class="nav-icon fas fa-table"></i>
+                  <p>
+                    Order
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
                <form action="{{route('logout')}}" method="post">
                 @csrf
-                <button type="submit" class="btn btn-danger">Logout</button>
+                <button type="submit" class="btn btn-danger btn-logout-admin mb-0">Logout</button>
               </form>
               </li>
         

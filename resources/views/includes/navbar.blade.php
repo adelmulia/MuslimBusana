@@ -28,7 +28,7 @@
                 @endif
              </ul>
              <a href="{{ route('front.list_cart')}}" class="nav-link text-white"><i class="fas fa-shopping-cart"></i>My Cart <span>
-                     (12)</span></a>
+                </span></a>
          </div>
      </div>
  </nav>

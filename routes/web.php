@@ -24,6 +24,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/detail-produk/{id}', [DetailProductController::class, 'index'])->name('detail-produk');
 Route::post('cart', [CartController::class, 'addToCart'])->name('front.cart');
 Route::get('/cart', [CartController::class, 'listCart'])->name('front.list_cart');
+
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('front.update_cart');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('front.checkout');
 Route::post('/checkout', [CartController::class, 'processCheckout'])->name('front.store_checkout');
@@ -50,6 +51,8 @@ Route::prefix('admin')
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('/category', '\App\Http\Controllers\Admin\CategoryController');
         Route::resource('/product', '\App\Http\Controllers\Admin\ProductController');
+        Route::resource('/order', '\App\Http\Controllers\Admin\OrderController');
+        Route::get('/{invoice}', [OrderController::class], 'view')->name('order.view');
     });
 
 Auth::routes();

@@ -42,7 +42,7 @@
           <div class="row">
                <div class="card-body">
                     <div class="table-responsive">
-                         <table class="table table-bordered width=100%" cellspacing="0">
+                         <table class="table table-bordered width=100%" cellspacing="0" id="table_product">
                               <thead>
                                    <tr>
                                         <th>ID</th>
@@ -102,3 +102,12 @@
         </div>
         <!-- /.container-fluid -->
 @endsection
+
+@push('dataTable')
+
+<script>
+    $(document).ready( function () {
+    $('#table_product').DataTable();
+} );
+     </script>
+@endpush

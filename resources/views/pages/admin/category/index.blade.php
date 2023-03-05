@@ -4,13 +4,13 @@
       <!-- Begin Page Content -->
       <div class="container">
           <div class="main-wrapper">
-               @if (session('success'))
+               {{-- @if (session('success'))
                <div class="alert alert-success mb-2">{{ session('success') }}</div>
            @endif
          
            @if (session('error'))
                <div class="alert alert-danger">{{ session('error') }}</div>
-           @endif
+           @endif --}}
 
           <!-- Page Heading -->
 
@@ -42,7 +42,8 @@
           <div class="row">
                <div class="card-body">
                     <div class="table-responsive">
-                         <table class="table table-bordered width=100%" cellspacing="0">
+                         
+                         <table class="table table-bordered width=100%" cellspacing="0" id="tabel_category">
                               <thead>
                                    <tr>
                                         <th>ID</th>
@@ -52,7 +53,7 @@
                                    </tr>
                               </thead>
                               <tbody>
-                                   @forelse ($data as $item)
+                                   @forelse ($category as $item)
                                          <tr>
                                        
                                              <td>{{ $item->id }}</td>
@@ -90,5 +91,18 @@
         
 
         </div>
+        
+      
         <!-- /.container-fluid -->
 @endsection
+
+@push('dataTable')
+
+<script>
+    $(document).ready( function () {
+    $('#tabel_category').DataTable();
+} );
+     </script>
+@endpush
+
+

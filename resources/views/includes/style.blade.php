@@ -8,6 +8,8 @@
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Montserrat:200,400,600&display=swap"
         rel="stylesheet">
-
-    <!-- my css -->
+    
+    
+    
+        <!-- my css -->
     <link rel="stylesheet" href="{{ url('frontend/css/style.css') }}">

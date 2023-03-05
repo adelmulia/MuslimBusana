@@ -92,7 +92,7 @@
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <figure class="figure">
                     <div class="figure-img">
-                        <img src="{{ url('frontend/img/fiture/1.png') }}" class="figure-img img-fluid " alt="...">
+                        <img src="{{ asset('storage/uploads/' . $item->image) }}"  alt="">
                         <a href="{{ route('detail-produk', $item->id)}}" class="d-flex justify-content-center">
                             <img src="{{ url('frontend/img/detail.png') }}" alt="" class="align-self-center">
                         </a>
