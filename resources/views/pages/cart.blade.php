@@ -45,6 +45,9 @@
 						</thead>
 						<tbody>
               <!-- LOOPING DATA DARI VARIABLE CARTS -->
+		   @php
+			  $carts = is_array($carts) ? $carts : array($carts);
+		   @endphp
                             @forelse ($carts as $row)
 							<tr>
 								<td>

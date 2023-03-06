@@ -9,7 +9,7 @@
             <h1 class="h3 mb-0 text-gray-800">Edit Category</h1>  
           </div>
 
-          @if($errors->any())
+          {{-- @if($errors->any())
               <div class="alert alert-danger">
                 <ul>
                   @foreach ($errors->all() as $error)
@@ -17,7 +17,7 @@
                   @endforeach
                 </ul>
               </div>
-            @endif
+            @endif --}}
 
             <div class="card-shadow">
               <div class="card-body">

@@ -16,7 +16,6 @@ class Order extends Model
     }
     public function details()
     {
-        //MENGGUNAKAN RELASI ONE TO MANY DENGAN FOREIGN KEY 
-        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+        return $this->hasMany(OrderDetail::class);
     }
 }

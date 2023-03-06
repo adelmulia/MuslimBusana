@@ -49,7 +49,7 @@
                   </div>
                   <div class="form-group d-flex flex-column">
                     <label for="description">Deskripsi Produk</label>
-                    <textarea name="description" id="" cols="30" rows="10"></textarea>
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
                   </div>
                   <div class="form-group">
                     <label for="image">image</label>
@@ -68,5 +68,8 @@
         
 
         </div>
+        <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+
         <!-- /.container-fluid -->
 @endsection
+

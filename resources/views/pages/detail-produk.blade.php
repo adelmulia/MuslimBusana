@@ -18,7 +18,8 @@
               <div class="row">
                   <div class="col-lg-5">
                       <figure class="figure">
-                          <img src="{{ url('frontend/img/single/1.png') }}" class="figure-img img-fluid">
+              
+                          <img src="{{ asset('storage/uploads/' . $data->image) }}"  alt="" class="figure-img img-fluid">
                           {{-- <figcaption class="figure-caption product-thumbnail-container d-flex  justify-content-between">
                               <a href="">
                                   <img src="{{ url('frontend/img/single/thumbnail/1.png') }}">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class LoginCustomerController extends Controller
@@ -30,11 +31,16 @@ class LoginCustomerController extends Controller
     }
     public function dashboard()
     {
-        return view('pages.customer.dashboard');
+        $orders = Order::with(['details'])->where('customer_id', auth()->guard('customer')->user()->id)->get();
+
+
+
+        return view('pages.customer.dashboard', compact('orders'));
     }
 
     public function logout()
     {
+
         auth()->guard('customer')->logout();
         return redirect(route('customer.login'));
     }

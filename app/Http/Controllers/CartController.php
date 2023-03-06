@@ -155,7 +155,6 @@ class CartController extends Controller
                     'password' => $password,
                     'phone_number' => $request->customer_phone,
                     'address' => $request->customer_address,
-                    'district_id' => $request->district_id,
                     'activate_token' => Str::random(30),
                     'status' => false
                 ]);

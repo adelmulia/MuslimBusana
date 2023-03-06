@@ -142,11 +142,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
-        if ($product->image) {
-            Storage::delete(storage_path('app/public/uploads/' . $product->image));
+        $product = Product::withCount(['orderDetail'])->find($id);
+
+
+        if ($product->order_detail_count == null) {
+            if ($product->image) {
+                Storage::delete(storage_path('app/public/uploads/' . $product->image));
+            }
+            $product->delete();
+            return redirect(route('product.index'))->with(['success' => 'Produk Dihapus!']);
         }
-        $product->delete();
-        return redirect(route('product.index'))->with(['success' => 'Produk Dihapus!']);
+        return redirect(route('product.index'))->with(['info' => 'Produk berelasi tidak dapat dihapus!']);
     }
 }

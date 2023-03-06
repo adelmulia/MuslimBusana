@@ -50,7 +50,10 @@
                               </div>
                               <div class="col-md-6 form-group p_star">
                                    <label for="">Email</label>
-                                   <input type="email" class="form-control" id="email" value="value="{{ auth()->guard('customer')->user()->email }}" required {{ auth()->guard('customer')->check() ? 'readonly':'' }}" name="email" required>
+							@php
+							    
+							@endphp
+    							<input type="email" class="form-control" id="email" name="email" value="{{ auth()->guard('customer')->user()  != null ? auth()->guard('customer')->user()->email  : ' '}}" required {{ auth()->guard('customer')->check() ? 'readonly':'' }}>
                                    <p class="text-danger">{{ $errors->first('email') }}</p>
                               </div>
                               <div class="col-md-12 form-group d-flex flex-column">
@@ -63,41 +66,45 @@
                          <div class="col-lg-4">
 						<div class="order_box">
 							<h2>Ringkasan Pesanan</h2>
-							<ul class="list">
-								<li>
-									<a href="#">Product
-										<span>Total</span>
-									</a>
-                                        </li>
-                                        @foreach ($carts as $cart)
-                                             <li>
-                                                  <a href="#">{{ \Str::limit($cart['product_name'], 10) }}
-                                                       <span class="middle">x {{ $cart['qty'] }}</span>
-                                                       <span class="last">Rp {{ number_format($cart['product_price']) }}</span>
-                                                  </a>
-                                             </li>
-                                        @endforeach
-							</ul>
-							<ul class="list list_2">
-								<li>
-									<a href="#">Subtotal
-                                                  <span>Rp {{ number_format($subtotal) }}</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">Pengiriman
-										<span>Rp 0</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">Total
-										<span>Rp {{ number_format($subtotal) }}</span>
-									</a>
-								</li>
-								<button class="btn btn-warning" type="submit">
-									Bayar Pesanan
-								   </button>
-                           
+							<div class="card">
+								<div class="card-header">
+									<h5 class="text-center">Produk Total</h5>
+								</div>
+								<div class="card-body">
+									<ul class="list-checkout">
+									
+										@foreach ($carts as $cart)
+											<li>
+												<a href="#">{{ \Str::limit($cart['product_name'], 10) }}
+													<span class="middle">x {{ $cart['qty'] }}</span>
+													<span class="last">Rp {{ number_format($cart['product_price']) }}</span>
+												</a>
+											</li>
+										@endforeach
+										<li>
+											<a href="#">Subtotal
+												<span>Rp {{ number_format($subtotal) }}</span>
+											</a>
+										</li>
+										<li>
+											<a href="#">Pengiriman
+												<span>Rp 0</span>
+											</a>
+										</li>
+										<li>
+											<a href="#">Total
+												<span>Rp {{ number_format($subtotal) }}</span>
+											</a>
+										</li>
+										<button class="btn btn-warning mt-4" type="submit">
+											Bayar Pesanan
+										   </button>
+							  
+									</ul>
+								</div>
+							</div>
+							
+								
                           </form>
 						</div>
 					</div>

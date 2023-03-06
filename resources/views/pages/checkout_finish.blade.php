@@ -24,38 +24,50 @@
 	<!--================Order Details Area =================-->
 	<section class="order_details p_120">
 		<div class="container">
-			<h3 class="title_confirmation">Terima kasih, pesanan anda telah kami terima.</h3>
+			<h3 class="title_confirmation text-center mt-3">Terima kasih, pesanan anda telah kami terima.</h3>
 			<div class="row order_d_inner">
 				<div class="col-lg-6">
-					<div class="details_item">
-						<h4>Informasi Pesanan</h4>
-						<ul class="list">
-							<li>
-								<a href="#"><span>Invoice</span> : {{ $order->invoice }}</a>
-							</li>
-							<li>
-								<a href="#"><span>Tanggal</span> : {{ $order->created_at }}</a>
-							</li>
-							<li>
-								<a href="#"><span>Total</span> : Rp {{ number_format($order->subtotal) }}</a>
-							</li>
-						</ul>
-					</div>
+					<div class="card">
+						<div class="card-header">
+						  <h4>Informasi Pesanan</h4>
+						</div>
+						<div class="card-body">
+							<ul class="list-checkout">
+								<li>
+									<a href="#"><span>Invoice</span> : {{ $order->invoice }}</a>
+								</li>
+								<li>
+									<a href="#"><span>Tanggal</span> : {{ $order->created_at }}</a>
+								</li>
+								<li>
+									<a href="#"><span>Total</span> : Rp {{ number_format($order->subtotal) }}</a>
+								</li>
+							</ul>
+						</div>
+					   </div>
 				</div>
 				<div class="col-lg-6">
-					<div class="details_item">
-						<h4>Informasi Pemesan</h4>
-						<ul class="list">
-							<li>
-								<a href="#"><span>Alamat</span> : {{ $order->customer_address }}</a>
-							</li>
-						
-							<li>
-								<a href="#"><span>Country</span> : Indonesia</a>
-							</li>
-						</ul>
+					<div class="card">
+						<div class="card-header">
+							Informasi Pemesan
+						</div>
+						<div class="card-body">
+							<ul class="list-checkout">
+								<li>
+									<a href="#"><span>Alamat</span> : {{ $order->customer_address }}</a>
+								</li>
+							
+								<li>
+									<a href="#"><span>Country</span> : Indonesia</a>
+								</li>
+							</ul>
+						</div>
 					</div>
+					
 				</div>
+			</div>
+			<div class="row">
+				<span class="order-warning-notice">Silahkan cek email anda</span>
 			</div>
 		</div>
 	</section>

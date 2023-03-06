@@ -63,7 +63,7 @@ body {
 footer p,
 .category p {
     font-weight: 200;
-    color: #B7B7B7;
+    color: #656363;
 }
 
 .figure h5 {
@@ -79,7 +79,7 @@ footer p,
     top: 0;
     left: 0;
     right: 0;
-    bottom: 8px;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
     transition: opacity 0.3s;
@@ -328,6 +328,52 @@ footer p,
     border-top: 1px solid #eeeeee;
     padding-top: 10px;
     display: none;
+}
+
+/* card informasi pemesan */
+.order_box .card {
+    min-height: 200px;
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+.order_box .card ul {
+    list-style: none;
+
+}
+
+.order_box .card ul li a {
+    padding-bottom: 14px;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+
+.order_details .card {
+    min-height: 200px;
+    margin-top: 30px;
+}
+
+.order_details .card ul {
+    list-style: none;
+
+}
+
+.order_details .card ul li a {
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+}
+
+.order_details .order-warning-notice {
+    font-size: 14px;
+    color: #F9B234;
+    margin: auto;
+    margin-top: 20px;
+
+    margin-bottom: 40px;
+
 }
 
 /* end side bar/ left */
